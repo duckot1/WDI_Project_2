@@ -7,8 +7,6 @@ const users = require('../controllers/users');
 
 
 router.route('/register').post(authentications.register);
-
-router.route('/users').get(users.index);
-
+router.route('/login').post(authentications.login);
 
 module.exports = router;
