@@ -1,47 +1,47 @@
-var Camera   = require('./models/camera');
+var Course   = require('./models/course');
 var rp       = require('request-promise');
 var parser   = require('xml2json');
 var mongoose = require('mongoose');
 
-var databaseURL = process.env.MONGOLAB_URL || 'mongodb://localhost:27017/tfl-cameras';
+var databaseURL = process.env.MONGOLAB_URL || 'mongodb://localhost:27017/golf-app';
 mongoose.connect(databaseURL);
 
-function saveCameras(response) {
+function saveCourses(response) {
   var json     = JSON.parse(parser.toJson(response));
-  var cameras  = json.syndicatedFeed.cameraList.camera;
+  var courses  = json.syndicatedFeed.courseList.course;
   var count    = 0;
 
-  cameras.forEach(function(camera, index, cameras) {
-    Camera.create({
-      available: camera.available,
-      file: camera.file,
-      lat: camera.lat,
-      lng: camera.lng,
-      postcode: camera.postcode,
-      location: camera.location
+  courses.forEach(function(course, index, courses) {
+    Course.create({
+      available: course.available,
+      file: course.file,
+      lat: course.lat,
+      lng: course.lng,
+      postcode: course.postcode,
+      location: course.location
     }, function(){
       count++;
-      console.log('Camera ' + count + ' downloaded.');
-      if (count === cameras.length) return process.exit();
+      console.log('Course ' + count + ' downloaded.');
+      if (count === courses.length) return process.exit();
     });
   });
 }
 
-function getCameras(){
-  Camera.collection.drop();
+function getCourses(){
+  Course.collection.drop();
 
-  var url = 'https://s3-eu-west-1.amazonaws.com/tfl.pub/Jamcams/jamcams-camera-list.xml';
+  var url = 'https://s3-eu-west-1.amazonaws.com/tfl.pub/Jamcams/jamcams-course-list.xml';
 
   return rp(url)
-    .then(saveCameras)
+    .then(saveCourses)
     .catch(function (err) {
       console.log('Something went wrong', err);
       process.exit();
     });
 }
 
-desc('Populate cameras');
-task('cameras', getCameras);
+desc('Populate courses');
+task('courses', getCourses);
 
 desc('Default task is test');
-task('default', ['cameras'], true);
+task('default', ['courses'], true);

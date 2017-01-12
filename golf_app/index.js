@@ -16,13 +16,13 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
-app.use('/api', expressJWT({ secret: config.secret })
-  .unless({
-    path: [
-      { url: '/api/login', methods: ['POST'] },
-      { url: '/api/register', methods: ['POST'] }
-    ]
-  }));
+// app.use('/api', expressJWT({ secret: config.secret })
+//   .unless({
+//     path: [
+//       { url: '/api/login', methods: ['POST'] },
+//       { url: '/api/register', methods: ['POST'] }
+//     ]
+//   }));
 app.use('/api', routes);
 app.use('/', webRoutes);
 
