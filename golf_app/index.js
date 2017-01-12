@@ -13,9 +13,9 @@ mongoose.connect(config.db);
 
 app.use(express.static(`${__dirname}/public`));
 app.use(morgan('dev'));
-app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors());
 app.use('/api', expressJWT({ secret: config.secret })
   .unless({
     path: [
