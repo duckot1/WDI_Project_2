@@ -109,47 +109,72 @@ $(Golf.init.bind(Golf));
 
 const googleMap = googleMap || {};
 
-googleMap.getCourses = function() {
-  $.get('http://localhost:3000/api/courses').done(this.loopThroughCourses);
-};
+googleMap.getPlaces = function() {
 
-googleMap.loopThroughCourses = function (data) {
-  $.each(data.data, (index, course) => {
-    googleMap.createMarkerForCourse(course);
+  $.ajax({
+    url: 'https://trailapi-trailapi.p.mashape.com/?limit=10000&q[country_cont]=United+Kingdom', // The URL to the API. You can get this in the API page of the API you intend to consume
+    type: 'GET', // The HTTP Method, can be GET POST PUT DELETE etc
+    data: {}, // Additional parameters here
+    dataType: 'json',
+    // success: function(data) { console.dir((data.source)); },
+    // error: function(err) { alert(err); },
+    beforeSend: function(xhr) {
+      xhr.setRequestHeader('X-Mashape-Authorization', 'N9En10D3YImsh3Bwp5CuNALscQNwp1iZe9UjsnYib8D1te1oBu'); // Enter here your Mashape key
+    }
+  }).done(data => {
+    console.log(data);
+    googleMap.loopThroughPlaces(data);
+  }).fail(data => {
+    console.log(data);
   });
 };
 
-googleMap.createMarkerForCourse = function(course) {
-  let latlng = new google.maps.LatLng(course.lat, course.lng);
-  let marker = new google.maps.Marker({
-    position: latlng,
-    map: this.map
+googleMap.loopThroughPlaces = function (data) {
+  $.each(data.places, (index, place) => {
+    googleMap.createMarkerForCourse(place);
   });
+};
 
-  marker.addListener('click', function() {
-    const weather = $.get(`http://api.openweathermap.org/data/2.5/weather?q=${course.postcode},uk&appid=6908cd3df033fc1b49ab9e98719d00fa`).done( function() {
-      console.log(weather.responseJSON);
-      let contentString = `${weather.responseJSON.weather[0].description}`;
-      console.log(contentString);
-      let infowindow = new google.maps.InfoWindow({
-        content: contentString
+googleMap.createMarkerForCourse = function(place) {
+
+  $.get(`http://api.openweathermap.org/data/2.5/weather?q=${place.city},uk&appid=6908cd3df033fc1b49ab9e98719d00fa`).done((weather) => {
+    console.log(weather);
+    var urlbase = 'http://openweathermap.org/img/w/';
+    var icon = `${urlbase}${weather.weather[0].icon}.png`;
+
+    const latlng = new google.maps.LatLng(place.lat, place.lon);
+    const marker = new google.maps.Marker({
+      position: latlng,
+      icon: icon,
+      map: this.map
+    });
+    marker.addListener('click', function() {
+      $.get(`http://api.openweathermap.org/data/2.5/weather?q=${place.city},uk&appid=6908cd3df033fc1b49ab9e98719d00fa`).done( function() {
+        const contentString = `${weather.weather[0].description}`;
+        console.log(weather.responseJSON);
+        const infowindow = new google.maps.InfoWindow({
+          content: contentString
+        });
+        infowindow.open(this.map, marker);
       });
-      infowindow.open(this.map, marker);
     });
   });
+
+
+
 };
 
 googleMap.mapSetup = function(){
   const canvas = document.getElementById('map-canvas');
 
   const mapOptions = {
-    zoom: 12,
+    zoom: 8,
     center: new google.maps.LatLng(51.4248172,-0.2351502),
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
 
   this.map = new google.maps.Map(canvas, mapOptions);
-  this.getCourses();
+  this.getPlaces();
 };
 
 $(googleMap.mapSetup.bind(googleMap));
