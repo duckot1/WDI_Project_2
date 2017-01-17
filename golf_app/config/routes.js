@@ -4,13 +4,13 @@ const router  = express.Router();
 
 const authentications = require('../controllers/authentications');
 const users = require('../controllers/users');
-const courses = require('../controllers/courses');
+const places = require('../controllers/places');
 
 router.route('/users').get(users.index);
 
 router.route('/register').post(authentications.register);
 router.route('/login').post(authentications.login);
 
-router.route('/courses').get(courses.send);
+router.route('/places').get(places.index);
 
 module.exports = router;
