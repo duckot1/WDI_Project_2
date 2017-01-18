@@ -99,27 +99,48 @@ rp(options)
 //   console.log('Course saved! ', project);
 // });
 
-var optionsStation = {
-  url: 'http://transportapi.com/v3/uk/train/stations/bbox.json?maxlat=70&maxlon=10&minlat=40&minlon=-2&rrp=1000&app_id=7f10862d&app_key=46ae5d0bfb36b34da957ff0581d619b6',
+var optionsTeam = {
+  url: 'https://api.soccerama.pro/v1.2/teams/season/651?api_token=LVFcXAXpTmgBf4RsUnO9bEX3GwIP4lNjb7FVFI35rSn2ucoc7pGW4OShXbNu&include=venue',
   json: true // Automatically parses the JSON string in the response
 };
 
 
 
-rp(optionsStation)
-.then(function (data) {
-  data.stations.forEach((station) => {
-    Station.create({
-      name: station.name,
-      lat: station.latitude,
-      lng: station.longitude,
-      code: station.station_code
-    }, (err, station) => {
-      console.log(`${station.name} done`);
-    });
-  });
-})
-.catch(function (err) {
-  // API call failed...
-  console.log(err);
-});
+// rp(optionsStation)
+// .then(function (data) {
+//   data.stations.forEach((station) => {
+//     Station.create({
+//       name: station.name,
+//       lat: station.latitude,
+//       lng: station.longitude,
+//       code: station.station_code
+//     }, (err, station) => {
+//       console.log(`${station.name} done`);
+//     });
+//   });
+// })
+// .catch(function (err) {
+//   // API call failed...
+//   console.log(err);
+// });
+
+const Team = require('../models/team');
+
+rp(optionsTeam)
+ .then(function(data) {
+   data.data.forEach((team) => {
+     Team.create({
+       name: team.name,
+       logo: team.logo,
+       city: team.venue.city,
+       stadium: team.venue.name,
+       id: team.id
+     }, (err, team) => {
+       console.log(`${team.name} saved`);
+     });
+   });
+ })
+ .catch(function (err) {
+   // API call failed...
+   console.log(err);
+ });

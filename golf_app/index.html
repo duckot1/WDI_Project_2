@@ -15,49 +15,131 @@
   <script src="/js/app.js" charset="utf-8"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+
 </head>
 <body>
-  <nav id="header" class="navbar navbar-fixed-top">
-    <div id="header-container" class="container navbar-container">
+  <header>
+     <nav class="navbar navbar-default">
+       <div class="container">
+         <!-- Brand and toggle get grouped for better mobile display -->
+         <div class="navbar-header">
+           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+             <span class="sr-only">Toggle navigation</span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+           </button>
+           <a class="navbar-brand" href="#"><img class="logo" src="/images/icon.png">   AWAY DAYS</a>
+         </div>
+
+         <!-- Collect the nav links, forms, and other content for toggling -->
+         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+           <form class="navbar-form navbar-left loggedIn" id="calculateRoute">
+             <div class="form-group">
+               <select placeholder="Your team" class="myTeam form-control">
+                 <option value="124">Arsenal</option>
+                 <option value="389">Bournemouth</option>
+                 <option value="387">Burnley</option>
+                 <option value="133">Chelsea</option>
+                 <option value="381">Crystal Palace</option>
+                 <option value="165">Everton</option>
+                 <option value="384">Hull City</option>
+                 <option value="388">Leicester City</option>
+                 <option value="119">Liverpool</option>
+                 <option value="127">Man City</option>
+                 <option value="375">Man United</option>
+                 <option value="390">Middlesborough</option>
+                 <option value="376">Southampton</option>
+                 <option value="379">Stoke City</option>
+                 <option value="383">Sunderland</option>
+                 <option value="378">Swansea City</option>
+                 <option value="148">Tottenham</option>
+                 <option value="393">Watford</option>
+                 <option value="382">West Brom</option>
+                 <option value="377">West Ham</option>
+               </select>
+               <div class="input-group date" id="datetimepicker1">
+                 <input placeholder="Fixture Date" type="text" class="form-control" />
+                 <span class="input-group-addon">
+                   <span class="glyphicon glyphicon-calendar"></span>
+                 </span>
+               </div>
+               <script type="text/javascript">
+               $(function () {
+                 $('#datetimepicker1').datetimepicker();
+               });
+               </script>
+               <input id="number-of-pubs-input" class="team form-control" type="text"
+               placeholder="Enter Opposition">
+             </div>
+             <button type="button" class="search btn btn-default">Get Info!</button>
+           </form>
+         </div><!-- /.navbar-collapse -->
+       </div><!-- /.container-fluid -->
+     </nav>
+   </header>
+  <!-- <nav class="navbar navbar-default">
+    <div class="container-fluid">
       <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a id="brand" class="navbar-brand" href="#">Golf finder</a>
-      </div>
-      <div id="navbar" class="collapse navbar-collapse">
-        <ul class="nav navbar-nav">
-          <li class="login"><a href="#">Login</a></li>
-          <li class="register"><a href="#">Register</a></li>
-        </ul>
-        <div class="container">
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="form-group">
-                <div class="input-group date" id="datetimepicker1">
-                  <input type="text" class="form-control" />
-                  <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                  </span>
-                </div>
-              </div>
-            </div>
-            <script type="text/javascript">
-            $(function () {
-              $('#datetimepicker1').datetimepicker();
-            });
-            </script>
-          </div>
+
+      <a class="navbar-brand" href="#">
+        <img alt="Brand" src="...">
+      </a>
+    </div>
+    <div class="col-sm-6">
+      <div class="form-group">
+        <div class="input-group date" id="datetimepicker1">
+          <input type="text" class="form-control" />
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+          </span>
         </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+    $(function () {
+      $('#datetimepicker1').datetimepicker();
+    });
+    </script>
+  </div>
+  <div id="navbar" class="collapse navbar-collapse">
+    <div class="container">
+      <div class="row">
+
+        <select class="myTeam form-control">
+          <option value="124">Arsenal</option>
+          <option value="389">Bournemouth</option>
+          <option value="387">Burnley</option>
+          <option value="133">Chelsea</option>
+          <option value="381">Crystal Palace</option>
+          <option value="165">Everton</option>
+          <option value="384">Hull City</option>
+          <option value="388">Leicester City</option>
+          <option value="119">Liverpool</option>
+          <option value="127">Man City</option>
+          <option value="375">Man United</option>
+          <option value="390">Middlesborough</option>
+          <option value="376">Southampton</option>
+          <option value="379">Stoke City</option>
+          <option value="383">Sunderland</option>
+          <option value="378">Swansea City</option>
+          <option value="148">Tottenham</option>
+          <option value="393">Watford</option>
+          <option value="382">West Brom</option>
+          <option value="377">West Ham</option>
+        </select>
+      </div>
+      <div  class="collapse navbar-collapse">
+        <input type="text" class="team form-control" id="usr">
+      </div>
+      <div  class="collapse navbar-collapse">
         <button class="search" type="button">Search</button>
       </div>
-    </div><!-- /.nav-collapse --><!-- /.container -->
-  </nav><!-- /.navbar -->
-  <main>
-    <div id="map-canvas"></div>
-  </main>
+    </div>
+  </div>
+</nav> -->
+<main>
+  <div id="map-canvas"></div>
+</main>
 </body>
 </html>
