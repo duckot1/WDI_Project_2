@@ -336,17 +336,28 @@ googleMap.createMarkerForPlace = function(place, hours, team) {
   $.get(`http://api.openweathermap.org/data/2.5/forecast?lat=${place.geometry.location.lat()}&lon=${place.geometry.location.lng()}&appid=6908cd3df033fc1b49ab9e98719d00fa`).done((weather) => {
     console.log(weather, hours);
     const weatherSelected = weather.list[hours - 1];
+    $.get(`https://transportapi.com/v3/uk/train/stations/near.json?app_id=03bf8009&app_key=d9307fd91b0247c607e098d5effedc97&lat=${place.geometry.location.lat()}&lon=${place.geometry.location.lng()}&rpp=1`).done((station) => {
+      console.log(station.stations[0].latitude);
 
 
-    const marker = new google.maps.Marker({
-      position: place.geometry.location,
-      map: googleMap.map,
-      title: place.name,
-      icon: team.logo
+      console.log(station);
+      const marker = new google.maps.Marker({
+        position: place.geometry.location,
+        map: googleMap.map,
+        title: place.name,
+        icon: team.logo
+      });
+
+      googleMap.map.setZoom(15);
+      googleMap.map.panTo(marker.position);
+
+      googleMap.markerClickEvent(marker, place, weatherSelected, team, station);
     });
-    googleMap.map.setZoom(12);
-    googleMap.map.panTo(marker.position);
-    googleMap.markerClickEvent(marker, place, weatherSelected, team);
+
+
+
+
+
   });
 
   //
@@ -356,8 +367,18 @@ googleMap.createMarkerForPlace = function(place, hours, team) {
   // });
 };
 
-googleMap.markerClickEvent = function (marker, place, weatherSelected, team) {
+googleMap.markerClickEvent = function (marker, place, weatherSelected, team, station) {
+
+  var stationLatLng = {lat: station.stations[0].latitude, lon: station.stations[0].longitude};
+  var stationMarker = new google.maps.Marker({
+    postion: stationLatLng,
+    map: googleMap.map,
+    animation: google.maps.Animation.DROP
+  });
+  stationMarker.setMap(googleMap.map);
   marker.addListener('click', function(){
+
+
     const myTeamId = $('.myTeam option:selected').val();
     const myTeam = $('.myTeam option:selected').text();    $.get(`https://api.soccerama.pro/v1.2/head2head/${team.id}/${myTeamId}?api_token=LVFcXAXpTmgBf4RsUnO9bEX3GwIP4lNjb7FVFI35rSn2ucoc7pGW4OShXbNu`).done((head) => {
       var homeTeam;
@@ -370,7 +391,10 @@ googleMap.markerClickEvent = function (marker, place, weatherSelected, team) {
         awayTeam = team.name;
       }
       console.log(head.data[0]);
-      const contentString = `<div>
+      const contentString = `
+
+                              <div>
+
                               <h2>MATCHDAY INFO</h2>
                               <h3>Weather</h3>
                               <img src="http://openweathermap.org/img/w/${weatherSelected.weather[0].icon}.png">
@@ -379,9 +403,11 @@ googleMap.markerClickEvent = function (marker, place, weatherSelected, team) {
                               <p>${homeTeam} ${head.data[0].home_score} - ${head.data[0].away_score} ${awayTeam}</p>
 
 
+
                             </div>`;
       const infowindow = new google.maps.InfoWindow({
-        content: contentString
+        content: contentString,
+        maxWidth: 300
       });
       infowindow.open(this.map, marker);
     });

@@ -36,7 +36,8 @@
          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
            <form class="navbar-form navbar-left loggedIn" id="calculateRoute">
              <div class="form-group">
-               <select placeholder="Your team" class="myTeam form-control">
+               <label for="myTeam">Pick your team</label>
+               <select id="myTeam" placeholder="Your team" class="myTeam form-control">
                  <option value="124">Arsenal</option>
                  <option value="389">Bournemouth</option>
                  <option value="387">Burnley</option>
@@ -69,7 +70,7 @@
                  $('#datetimepicker1').datetimepicker();
                });
                </script>
-               <input id="number-of-pubs-input" class="team form-control" type="text"
+               <input class="team form-control" type="text"
                placeholder="Enter Opposition">
              </div>
              <button type="button" class="search btn btn-default">Get Info!</button>

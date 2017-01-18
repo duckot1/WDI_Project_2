@@ -14,7 +14,6 @@ html, body {
 
 .myTeam {
   display: inline-block;
-  float: right;
 }
 
 .logo {
@@ -25,4 +24,26 @@ html, body {
 .navbar-brand>img {
   display: inline-block;
   margin-top: -5px;
+  margin-right: 10px;
+}
+
+.team {
+  margin-left: 20px;
+}
+
+.myTeam {
+  margin-right: 20px;
+}
+
+button {
+  margin-left: 20px;
+  background-color: #00AEEF !important;
+  color: white !important;
+  border-color: #437EA0 !important;
+}
+
+
+gm-style img {
+  float: right;
+  display: inline;
 }
