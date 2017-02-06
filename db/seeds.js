@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const rp       = require('request-promise');
+const databaseURL = require('../config/config/').db;
 
-const databaseURL = 'mongodb://localhost:27017/golf-app';
+// const databaseURL = 'mongodb://localhost:27017/golf-app';
 mongoose.connect(databaseURL);
 
 const Place  = require('../models/place');
