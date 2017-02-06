@@ -3,7 +3,7 @@ const google = google || {};
 const googleMap = googleMap || {};
 
 Golf.init = function() {
-  this.apiUrl = 'http://localhost:3000/api';
+  this.apiUrl = `${window.location.origin}/api`;
   this.$main  = $('main');
   $(googleMap.mapSetup.bind(googleMap));
   $('.login').on('click', this.login);
@@ -246,7 +246,7 @@ googleMap.search = function() {
 
 googleMap.findTeam = function(hours, search) {
   console.log(hours);
-  $.get('http://localhost:3000/api/teams').done((teams) => {
+  $.get(`${window.location.origin}/api/teams`).done((teams) => {
     console.log(teams.teams[0].name);
     var team = [];
     for (var i=0; i<teams.teams.length; i++) {
