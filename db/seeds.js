@@ -13,6 +13,7 @@ Station.collection.drop();
 Place.collection.drop();
 Activity.collection.drop();
 
+
 var options = {
   url: 'https://trailapi-trailapi.p.mashape.com/?limit=10000&q[country_cont]=United+Kingdom',
   headers: {
@@ -79,26 +80,6 @@ rp(options)
   console.log(err);
 });
 
-
-// const course1 = new Course({
-//   courseName: 'Royal Wimbledon',
-//   lat: '51.4248172',
-//   lng: '-0.2351502',
-//   postcode: 'sw194uw'
-// });
-//
-// const course2 = new Course({
-//   courseName: 'House',
-//   lat: '51.4499103',
-//   lng: '-0.1740257',
-//   postcode: 'sw183rr'
-// });
-//
-// course2.save(function(err, project) {
-//   if (err) return console.log(err);
-//   console.log('Course saved! ', project);
-// });
-
 var optionsTeam = {
   url: 'https://api.soccerama.pro/v1.2/teams/season/651?api_token=LVFcXAXpTmgBf4RsUnO9bEX3GwIP4lNjb7FVFI35rSn2ucoc7pGW4OShXbNu&include=venue',
   json: true // Automatically parses the JSON string in the response
@@ -125,6 +106,8 @@ var optionsTeam = {
 // });
 
 const Team = require('../models/team');
+
+Team.collection.drop();
 
 rp(optionsTeam)
  .then(function(data) {
