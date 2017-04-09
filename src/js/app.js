@@ -229,7 +229,7 @@ googleMap.mapSetup = function(){
 googleMap.search = function() {
   console.log('clicked');
   const dateTimeSelected = $('#datetimepicker1').find('input').val();
-  const dateTimeNow = new Date().toLocaleString();
+  const dateTimeNow = new Date();
   console.log(dateTimeNow, dateTimeSelected);
   const unixTimeNow = Date.parse(dateTimeNow)/1000;
   const unixTimeSelected = Date.parse(dateTimeSelected)/1000;
@@ -247,6 +247,7 @@ googleMap.search = function() {
 googleMap.findTeam = function(hours, search) {
   console.log(hours);
   $.get(`${window.location.origin}/api/teams`).done((teams) => {
+    console.log(teams);
     console.log(teams.teams[0].name);
     var team = [];
     for (var i=0; i<teams.teams.length; i++) {
@@ -255,7 +256,7 @@ googleMap.findTeam = function(hours, search) {
       }
     }
 
-    team = team[4];
+    team = team[0];
     console.log(team, 'diiiiiid it');
     googleMap.convertCity(hours, team);
 
@@ -270,6 +271,7 @@ googleMap.findTeam = function(hours, search) {
 };
 
 googleMap.convertCity = function(hours, team){
+  console.log(team, 'helllllloooooo');
   $.ajax({
     url: `https://maps.googleapis.com/maps/api/geocode/json?address=${team.city}&key=AIzaSyCbFPmuCf0KD-MHuJ9yzpEvLc450RxCt0g`, // The URL to the API. You can get this in the API page of the API you intend to consume
     type: 'GET', // The HTTP Method, can be GET POST PUT DELETE etc
@@ -334,7 +336,7 @@ googleMap.loopThroughPlaces = function (data, hours, team) {
 googleMap.createMarkerForPlace = function(place, hours, team) {
   // console.log(hours);
   $.get(`http://api.openweathermap.org/data/2.5/forecast?lat=${place.geometry.location.lat()}&lon=${place.geometry.location.lng()}&appid=6908cd3df033fc1b49ab9e98719d00fa`).done((weather) => {
-    console.log(weather, hours);
+    console.log(weather, hours, 'helllo');
     const weatherSelected = weather.list[hours - 1];
     $.get(`https://transportapi.com/v3/uk/train/stations/near.json?app_id=03bf8009&app_key=d9307fd91b0247c607e098d5effedc97&lat=${place.geometry.location.lat()}&lon=${place.geometry.location.lng()}&rpp=1`).done((station) => {
       console.log(station.stations[0].latitude);
